@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: a47ca364fbb47914da0f0a2ff8497536
+  - enabled: 1
+    path: Assets/Scenes/Ludo.unity
+    guid: 3dd7fa6f665385845b9002792513c177
   m_configObjects: {}
