@@ -880,7 +880,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 21ac722c827844826bd5bf107d3ec42c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5290037c942df4f3faee5c6a14b04f14, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c16169ecf8f52441e97d82b80d12987c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 17af5057b3a41419c846fdecf75f3a8c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1032,7 +1032,6 @@ GameObject:
   - component: {fileID: 2003145384}
   - component: {fileID: 2003145386}
   - component: {fileID: 2003145385}
-  - component: {fileID: 2003145387}
   m_Layer: 5
   m_Name: Ludo Text
   m_TagString: Untagged
@@ -1056,7 +1055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 180}
+  m_AnchoredPosition: {x: 0, y: 239}
   m_SizeDelta: {x: 600, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2003145385
@@ -1077,7 +1076,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f08925e74941486ba7f025c885b3efd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a2bd499bd64ba344918f6e9f603b134, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1094,55 +1093,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003145383}
   m_CullTransparentMesh: 0
---- !u!114 &2003145387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003145383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afe1355469f9d4a8d8399e46358cccdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: 
-  playAutomatically: 1
-  delay: 0
-  type: 15
-  showIconInInspector: 0
-  keys:
-  - time
-  - speed
-  - y
-  - easetype
-  - looptype
-  indexes: 0000000001000000020000000000000000000000
-  metadatas:
-  - 
-  - 
-  - 
-  - 
-  - 
-  ints: 
-  floats:
-  - 1
-  - 50
-  - 2
-  bools: 
-  strings: []
-  vector3s: []
-  colors: []
-  spaces: 
-  easeTypes: 15000000
-  loopTypes: 02000000
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
 --- !u!1 &2077325911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,7 +1200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a5b3235583e924c6c8672fe0f1d9996d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad0ed429f7ea1476ab2f97043ef870c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
