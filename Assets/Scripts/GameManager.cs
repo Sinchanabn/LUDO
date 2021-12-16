@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -77,11 +78,237 @@ public class GameManager : MonoBehaviour
 
     public Button DiceRollButton;
 
-    // Start is called before the first frame update
-    void Start()
+
+    //When we want to exit the game 
+    public void ExitMethod()
     {
-        
+        SoundManager.buttonAudioSource.Play();
+        confirmScreen.SetActive(true);
     }
+
+    //When we click yes
+    public void yesMethod()
+    {
+        SoundManager.buttonAudioSource.Play();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    //when we click no
+    public void noMethod()
+    {
+        SoundManager.buttonAudioSource.Play();
+        confirmScreen.SetActive(false);
+    }
+
+    IEnumerator GameCompletedRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gameCompletedScreen.SetActive(true);
+    }
+    //when we click yes
+    public void yesGameCompleted()
+    {
+        SoundManager.buttonAudioSource.Play();
+        SceneManager.LoadScene("Ludo");
+    }
+    // when we click no
+    public void noGameCompleted()
+    {
+        SoundManager.buttonAudioSource.Play();
+        SceneManager.LoadScene("Main Menu");
+    }
+
+     public void DiceRoll() 
+       {
+        SoundManager.diceAudioSource.Play();
+        DiceRollButton.interactable = false;
+
+        selectDiceNumAnimation = randomNo.Next(1, 7);
+
+        switch (selectDiceNumAnimation)
+        {
+            case 1:
+                dice1_Roll_Animation.SetActive(true);
+                dice2_Roll_Animation.SetActive(false);
+                dice3_Roll_Animation.SetActive(false);
+                dice4_Roll_Animation.SetActive(false);
+                dice5_Roll_Animation.SetActive(false);
+                dice6_Roll_Animation.SetActive(false);
+                break;
+
+            case 2:
+                dice1_Roll_Animation.SetActive(false);
+                dice2_Roll_Animation.SetActive(true);
+                dice3_Roll_Animation.SetActive(false);
+                dice4_Roll_Animation.SetActive(false);
+                dice5_Roll_Animation.SetActive(false);
+                dice6_Roll_Animation.SetActive(false);
+                break;
+
+            case 3:
+                dice1_Roll_Animation.SetActive(false);
+                dice2_Roll_Animation.SetActive(false);
+                dice3_Roll_Animation.SetActive(true);
+                dice4_Roll_Animation.SetActive(false);
+                dice5_Roll_Animation.SetActive(false);
+                dice6_Roll_Animation.SetActive(false);
+                break;
+
+            case 4:
+                dice1_Roll_Animation.SetActive(false);
+                dice2_Roll_Animation.SetActive(false);
+                dice3_Roll_Animation.SetActive(false);
+                dice4_Roll_Animation.SetActive(true);
+                dice5_Roll_Animation.SetActive(false);
+                dice6_Roll_Animation.SetActive(false);
+                break;
+
+            case 5:
+                dice1_Roll_Animation.SetActive(false);
+                dice2_Roll_Animation.SetActive(false);
+                dice3_Roll_Animation.SetActive(false);
+                dice4_Roll_Animation.SetActive(false);
+                dice5_Roll_Animation.SetActive(true);
+                dice6_Roll_Animation.SetActive(false);
+                break;
+
+            case 6:
+                dice1_Roll_Animation.SetActive(false);
+                dice2_Roll_Animation.SetActive(false);
+                dice3_Roll_Animation.SetActive(false);
+                dice4_Roll_Animation.SetActive(false);
+                dice5_Roll_Animation.SetActive(false);
+                dice6_Roll_Animation.SetActive(true);
+                break;
+        }
+
+        StartCoroutine("PlayersNotInitialized");
+    }
+
+    
+
+
+
+
+
+                // Start is called before the first frame update
+   void Start()
+    {
+
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 30;
+
+        randomNo = new System.Random();
+
+        dice1_Roll_Animation.SetActive(false);
+        dice2_Roll_Animation.SetActive(false);
+        dice3_Roll_Animation.SetActive(false);
+        dice4_Roll_Animation.SetActive(false);
+        dice5_Roll_Animation.SetActive(false);
+        dice6_Roll_Animation.SetActive(false);
+
+
+        // Players initial positions.....
+        redPlayerI_Pos = redPlayerI.transform.position;
+        redPlayerII_Pos = redPlayerII.transform.position;
+        redPlayerIII_Pos = redPlayerIII.transform.position;
+        redPlayerIV_Pos = redPlayerIV.transform.position;
+
+        greenPlayerI_Pos = greenPlayerI.transform.position;
+        greenPlayerII_Pos = greenPlayerII.transform.position;
+        greenPlayerIII_Pos = greenPlayerIII.transform.position;
+        greenPlayerIV_Pos = greenPlayerIV.transform.position;
+
+        bluePlayerI_Pos = bluePlayerI.transform.position;
+        bluePlayerII_Pos = bluePlayerII.transform.position;
+        bluePlayerIII_Pos = bluePlayerIII.transform.position;
+        bluePlayerIV_Pos = bluePlayerIV.transform.position;
+
+        yellowPlayerI_Pos = yellowPlayerI.transform.position;
+        yellowPlayerII_Pos = yellowPlayerII.transform.position;
+        yellowPlayerIII_Pos = yellowPlayerIII.transform.position;
+        yellowPlayerIV_Pos = yellowPlayerIV.transform.position;
+
+
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
+
+        yellowPlayerI_Border.SetActive(false);
+        yellowPlayerII_Border.SetActive(false);
+        yellowPlayerIII_Border.SetActive(false);
+        yellowPlayerIV_Border.SetActive(false);
+
+        bluePlayerI_Border.SetActive(false);
+        bluePlayerII_Border.SetActive(false);
+        bluePlayerIII_Border.SetActive(false);
+        bluePlayerIV_Border.SetActive(false);
+
+        greenPlayerI_Border.SetActive(false);
+        greenPlayerII_Border.SetActive(false);
+        greenPlayerIII_Border.SetActive(false);
+        greenPlayerIV_Border.SetActive(false);
+
+        redScreen.SetActive(false);
+        greenScreen.SetActive(false);
+        yellowScreen.SetActive(false);
+        blueScreen.SetActive(false);
+
+        switch (MainMenuManager.howManyPlayers)
+        {
+            case 2:
+                playerTurn = "RED";
+
+                frameRed.SetActive(true);
+                frameGreen.SetActive(false);
+                frameBlue.SetActive(false);
+                frameYellow.SetActive(false);
+                //diceRoll.position = redDiceRollPos.position;
+                bluePlayerI.SetActive(false);
+                bluePlayerII.SetActive(false);
+                bluePlayerIII.SetActive(false);
+                bluePlayerIV.SetActive(false);
+
+                yellowPlayerI.SetActive(false);
+                yellowPlayerII.SetActive(false);
+                yellowPlayerIII.SetActive(false);
+                yellowPlayerIV.SetActive(false);
+                break;
+
+            case 3:
+                playerTurn = "YELLOW";
+
+                frameRed.SetActive(false);
+                frameGreen.SetActive(false);
+                frameBlue.SetActive(false);
+                frameYellow.SetActive(true);
+
+                diceRoll.position = yellowDiceRollPos.position;
+                greenPlayerI.SetActive(false);
+                greenPlayerII.SetActive(false);
+                greenPlayerIII.SetActive(false);
+                greenPlayerIV.SetActive(false);
+
+                break;
+
+            case 4:
+                playerTurn = "RED";
+
+                frameRed.SetActive(true);
+                frameGreen.SetActive(false);
+                frameBlue.SetActive(false);
+                frameYellow.SetActive(false);
+
+                diceRoll.position = redDiceRollPos.position;
+                // keep all players active
+                break;
+        }
+    }
+    
+
+
+  
 
     // Update is called once per frame
     void Update()
