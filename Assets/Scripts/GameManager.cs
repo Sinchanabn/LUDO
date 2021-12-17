@@ -118,7 +118,192 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
-     public void DiceRoll() 
+    private void InitializeDice()
+    {
+        DiceRollButton.interactable = true;
+
+        dice1_Roll_Animation.SetActive(false);
+        dice2_Roll_Animation.SetActive(false);
+        dice3_Roll_Animation.SetActive(false);
+        dice4_Roll_Animation.SetActive(false);
+        dice5_Roll_Animation.SetActive(false);
+        dice6_Roll_Animation.SetActive(false);
+
+        switch (MainMenuManager.howManyPlayers)
+        {
+            case 2:
+                if (playerTurn == "RED")
+                {
+                    diceRoll.position = redDiceRollPos.position;
+                    frameRed.SetActive(true);
+                    frameGreen.SetActive(false);
+
+                }
+                if (playerTurn == "GREEN")
+                {
+                    diceRoll.position = greenDiceRollPos.position;
+                    frameGreen.SetActive(true);
+                    frameRed.SetActive(false);
+                }
+                RedPlayerI_Button.interactable = false;
+                RedPlayerII_Button.interactable = false;
+                RedPlayerIII_Button.interactable = false;
+                RedPlayerIV_Button.interactable = false;
+
+                GreenPlayerI_Button.interactable = false;
+                GreenPlayerII_Button.interactable = false;
+                GreenPlayerIII_Button.interactable = false;
+                GreenPlayerIV_Button.interactable = false;
+
+                //-----------Deactivating their bodies as well-----------------------
+                redPlayerI_Border.SetActive(false);
+                redPlayerII_Border.SetActive(false);
+                redPlayerIII_Border.SetActive(false);
+                redPlayerIV_Border.SetActive(false);
+
+                greenPlayerI_Border.SetActive(false);
+                greenPlayerII_Border.SetActive(false);
+                greenPlayerIII_Border.SetActive(false);
+                greenPlayerIV_Border.SetActive(false);
+
+                break;
+            case 3:
+                if (playerTurn == "RED")
+                {
+                    diceRoll.position = redDiceRollPos.position;
+                    frameRed.SetActive(true);
+                    frameYellow.SetActive(false);
+                    frameBlue.SetActive(false);
+                }
+                if (playerTurn == "YELLOW")
+                {
+                    diceRoll.position = yellowDiceRollPos.position;
+                    frameYellow.SetActive(true);
+                    frameRed.SetActive(false);
+                    frameBlue.SetActive(false);
+                }
+                if (playerTurn == "BLUE")
+                {
+                    diceRoll.position = blueDiceRollPos.position;
+                    frameYellow.SetActive(false);
+                    frameRed.SetActive(false);
+                    frameBlue.SetActive(true);
+                }
+
+                RedPlayerI_Button.interactable = false;
+                RedPlayerII_Button.interactable = false;
+                RedPlayerIII_Button.interactable = false;
+                RedPlayerIV_Button.interactable = false;
+
+                BluePlayerI_Button.interactable = false;
+                BluePlayerII_Button.interactable = false;
+                BluePlayerIII_Button.interactable = false;
+                BluePlayerIV_Button.interactable = false;
+
+                YellowPlayerI_Button.interactable = false;
+                YellowPlayerII_Button.interactable = false;
+                YellowPlayerIII_Button.interactable = false;
+                YellowPlayerIV_Button.interactable = false;
+
+                //-----------Deactivating their bodies as well-----------------------
+                redPlayerI_Border.SetActive(false);
+                redPlayerII_Border.SetActive(false);
+                redPlayerIII_Border.SetActive(false);
+                redPlayerIV_Border.SetActive(false);
+
+                bluePlayerI_Border.SetActive(false);
+                bluePlayerII_Border.SetActive(false);
+                bluePlayerIII_Border.SetActive(false);
+                bluePlayerIV_Border.SetActive(false);
+
+                yellowPlayerI_Border.SetActive(false);
+                yellowPlayerII_Border.SetActive(false);
+                yellowPlayerIII_Border.SetActive(false);
+                yellowPlayerIV_Border.SetActive(false);
+
+                break;
+
+
+            case 4:
+                if (playerTurn == "RED")
+                {
+                    diceRoll.position = redDiceRollPos.position;
+                    frameRed.SetActive(true);
+                    frameYellow.SetActive(false);
+                    frameBlue.SetActive(false);
+                    frameGreen.SetActive(false);
+                }
+                if (playerTurn == "BLUE")
+                {
+                    diceRoll.position = blueDiceRollPos.position;
+                    frameYellow.SetActive(false);
+                    frameRed.SetActive(false);
+                    frameGreen.SetActive(false);
+                    frameBlue.SetActive(true);
+                }
+                if (playerTurn == "YELLOW")
+                {
+                    diceRoll.position = yellowDiceRollPos.position;
+                    frameYellow.SetActive(true);
+                    frameRed.SetActive(false);
+                    frameBlue.SetActive(false);
+                    frameGreen.SetActive(false);
+                }
+                if (playerTurn == "GREEN")
+                {
+                    diceRoll.position = greenDiceRollPos.position;
+                    frameYellow.SetActive(false);
+                    frameRed.SetActive(false);
+                    frameBlue.SetActive(false);
+                    frameGreen.SetActive(true);
+                }
+
+                RedPlayerI_Button.interactable = false;
+                RedPlayerII_Button.interactable = false;
+                RedPlayerIII_Button.interactable = false;
+                RedPlayerIV_Button.interactable = false;
+
+                BluePlayerI_Button.interactable = false;
+                BluePlayerII_Button.interactable = false;
+                BluePlayerIII_Button.interactable = false;
+                BluePlayerIV_Button.interactable = false;
+
+                YellowPlayerI_Button.interactable = false;
+                YellowPlayerII_Button.interactable = false;
+                YellowPlayerIII_Button.interactable = false;
+                YellowPlayerIV_Button.interactable = false;
+
+                //-----------Deactivating their bodies as well-----------------------
+
+                greenPlayerI_Border.SetActive(false);
+                greenPlayerII_Border.SetActive(false);
+                greenPlayerIII_Border.SetActive(false);
+                greenPlayerIV_Border.SetActive(false);
+
+                redPlayerI_Border.SetActive(false);
+                redPlayerII_Border.SetActive(false);
+                redPlayerIII_Border.SetActive(false);
+                redPlayerIV_Border.SetActive(false);
+
+                bluePlayerI_Border.SetActive(false);
+                bluePlayerII_Border.SetActive(false);
+                bluePlayerIII_Border.SetActive(false);
+                bluePlayerIV_Border.SetActive(false);
+
+                yellowPlayerI_Border.SetActive(false);
+                yellowPlayerII_Border.SetActive(false);
+                yellowPlayerIII_Border.SetActive(false);
+                yellowPlayerIV_Border.SetActive(false);
+
+                greenPlayerI_Border.SetActive(false);
+                greenPlayerII_Border.SetActive(false);
+                greenPlayerIII_Border.SetActive(false);
+                greenPlayerIV_Border.SetActive(false);
+
+                break;
+        }
+    }
+    public void DiceRoll() 
        {
         SoundManager.diceAudioSource.Play();
         DiceRollButton.interactable = false;
@@ -185,14 +370,155 @@ public class GameManager : MonoBehaviour
         StartCoroutine("PlayersNotInitialized");
     }
 
-    
+   IEnumerator PlayersNotInitialized()
+    {
+        yield return new WaitForSeconds(0.8f);
+        // Game Start Initial position of each player (Red, Green, Blue, Yellow)
+        switch (playerTurn)
+        {
+            case "RED": 
+
+                if (!redPlayerI_Border.activeInHierarchy && !redPlayerII_Border.activeInHierarchy
+                    && !redPlayerIII_Border.activeInHierarchy && !redPlayerIV_Border.activeInHierarchy)
+                {
+                    RedPlayerI_Button.interactable = false;
+                    RedPlayerII_Button.interactable = false;
+                    RedPlayerIII_Button.interactable = false;
+                    RedPlayerIV_Button.interactable = false;
+
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            InitializeDice();
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            InitializeDice();
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            InitializeDice();
+                            break;
+
+
+                    }
+                  
+
+                }
+                break;
+            case "GREEN":
+
+                if (!greenPlayerI_Border.activeInHierarchy && !greenPlayerII_Border.activeInHierarchy
+                   && !greenPlayerIII_Border.activeInHierarchy && !greenPlayerIV_Border.activeInHierarchy)
+                {
+                    GreenPlayerI_Button.interactable = false;
+                    GreenPlayerII_Button.interactable = false;
+                    GreenPlayerIII_Button.interactable = false;
+                    GreenPlayerIV_Button.interactable = false;
+
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            InitializeDice();
+                            break;
+
+                        case 3:
+                           //green player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            InitializeDice();
+                            break;
+                    }
+                }
+
+               break;
+
+            case "BLUE":
+
+                if (!bluePlayerI_Border.activeInHierarchy && !bluePlayerII_Border.activeInHierarchy
+                   && !bluePlayerIII_Border.activeInHierarchy && !bluePlayerIV_Border.activeInHierarchy)
+                {
+                    BluePlayerI_Button.interactable = false;
+                    BluePlayerII_Button.interactable = false;
+                    BluePlayerIII_Button.interactable = false;
+                    BluePlayerIV_Button.interactable = false;
+
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+
+                        //blue player is not available
+                        
+                            break;
+
+                        case 3:
+                            playerTurn = "YELLOW";
+                            InitializeDice();
+                            //green player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "GREEN";
+                            InitializeDice();
+                            break;
+                    }
+                    
+                }
+                break;
+
+            case "YELLOW":
+
+                if (!yellowPlayerI_Border.activeInHierarchy && !yellowPlayerII_Border.activeInHierarchy
+                   && !yellowPlayerIII_Border.activeInHierarchy && !yellowPlayerIV_Border.activeInHierarchy)
+                {
+                    YellowPlayerI_Button.interactable = false;
+                    YellowPlayerII_Button.interactable = false;
+                    YellowPlayerIII_Button.interactable = false;
+                    YellowPlayerIV_Button.interactable = false;
+
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+
+                            //Yellow player is not available
+
+                            break;
+
+                        case 3:
+                            playerTurn = "RED";
+                            InitializeDice();
+                            //green player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "RED";
+                            InitializeDice();
+                            break;
+                    }
+
+                }
+                break;
+
+
+
+        }
+
+    }
+
+
 
 
 
 
 
                 // Start is called before the first frame update
-   void Start()
+        void Start()
     {
 
         QualitySettings.vSyncCount = 1;
