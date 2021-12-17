@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
                 YellowPlayerIII_Button.interactable = false;
                 YellowPlayerIV_Button.interactable = false;
 
-                //-----------Deactivating their bodies as well-----------------------
+               //-----------Deactivating their bodies as well-----------------------
                 redPlayerI_Border.SetActive(false);
                 redPlayerII_Border.SetActive(false);
                 redPlayerIII_Border.SetActive(false);
@@ -376,7 +376,32 @@ public class GameManager : MonoBehaviour
         // Game Start Initial position of each player (Red, Green, Blue, Yellow)
         switch (playerTurn)
         {
-            case "RED": 
+            case "RED":
+
+                //---When player has no move switch the turn to next player-----
+                
+                if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
+                {
+                    redPlayerI_Border.SetActive(true);
+                    RedPlayerI_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && redPlayerII_Steps == 0)
+                {
+                    redPlayerII_Border.SetActive(true);
+                    RedPlayerII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && redPlayerIII_Steps == 0)
+                {
+                    redPlayerIII_Border.SetActive(true);
+                    RedPlayerIII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && redPlayerIV_Steps == 0)
+                {
+                    redPlayerIV_Border.SetActive(true);
+                    RedPlayerIV_Button.interactable = true;
+                }
+
+                //Player boarder glow when player comes out of the home
 
                 if (!redPlayerI_Border.activeInHierarchy && !redPlayerII_Border.activeInHierarchy
                     && !redPlayerIII_Border.activeInHierarchy && !redPlayerIV_Border.activeInHierarchy)
@@ -411,6 +436,37 @@ public class GameManager : MonoBehaviour
                 break;
             case "GREEN":
 
+
+                //Player boarder glow when player comes out of the home
+                if (selectDiceNumAnimation == 6 && greenPlayerI_Steps == 0)
+                {
+                    greenPlayerI_Border.SetActive(true);
+                    GreenPlayerI_Button.interactable = true;
+                }
+               
+                if (selectDiceNumAnimation == 6 && greenPlayerII_Steps == 0)
+                {
+                    greenPlayerII_Border.SetActive(true);
+                    GreenPlayerII_Button.interactable = true;
+                }
+
+                if (selectDiceNumAnimation == 6 && greenPlayerIII_Steps == 0)
+                {
+                    greenPlayerIII_Border.SetActive(true);
+                    GreenPlayerIII_Button.interactable = true;
+                }
+               
+                if (selectDiceNumAnimation == 6 && greenPlayerIV_Steps == 0)
+                {
+                    greenPlayerIV_Border.SetActive(true);
+                    GreenPlayerIV_Button.interactable = true;
+                }
+
+
+
+
+                //---When player has no move switch the turn to next player-----
+
                 if (!greenPlayerI_Border.activeInHierarchy && !greenPlayerII_Border.activeInHierarchy
                    && !greenPlayerIII_Border.activeInHierarchy && !greenPlayerIV_Border.activeInHierarchy)
                 {
@@ -441,6 +497,31 @@ public class GameManager : MonoBehaviour
 
             case "BLUE":
 
+                //Player boarder glow when player comes out of the home
+                if (selectDiceNumAnimation == 6 && bluePlayerI_Steps == 0)
+                {
+                   bluePlayerI_Border.SetActive(true);
+                   BluePlayerI_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && bluePlayerII_Steps == 0)
+                {
+                    bluePlayerII_Border.SetActive(true);
+                    BluePlayerII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && bluePlayerIII_Steps == 0)
+                {
+                    bluePlayerIII_Border.SetActive(true);
+                    BluePlayerIII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && bluePlayerIV_Steps == 0)
+                {
+                    bluePlayerIV_Border.SetActive(true);
+                    BluePlayerIV_Button.interactable = true;
+                }
+
+                //---When player has no move switch the turn to next player-----
+
+
                 if (!bluePlayerI_Border.activeInHierarchy && !bluePlayerII_Border.activeInHierarchy
                    && !bluePlayerIII_Border.activeInHierarchy && !bluePlayerIV_Border.activeInHierarchy)
                 {
@@ -460,7 +541,6 @@ public class GameManager : MonoBehaviour
                         case 3:
                             playerTurn = "YELLOW";
                             InitializeDice();
-                            //green player is not available
                             break;
 
                         case 4:
@@ -473,6 +553,30 @@ public class GameManager : MonoBehaviour
                 break;
 
             case "YELLOW":
+                //Player boarder glow when player comes out of the home
+                if (selectDiceNumAnimation == 6 && yellowPlayerI_Steps == 0)
+                {
+                    yellowPlayerI_Border.SetActive(true);
+                    YellowPlayerI_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && yellowPlayerII_Steps == 0)
+                {
+                    yellowPlayerII_Border.SetActive(true);
+                    YellowPlayerII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && yellowPlayerIII_Steps == 0)
+                {
+                    yellowPlayerIII_Border.SetActive(true);
+                    YellowPlayerIII_Button.interactable = true;
+                }
+                if (selectDiceNumAnimation == 6 && yellowPlayerIV_Steps == 0)
+                {
+                    yellowPlayerIV_Border.SetActive(true);
+                    YellowPlayerIV_Button.interactable = true;
+                }
+
+
+                //---When player has no move switch the turn to next player-----
 
                 if (!yellowPlayerI_Border.activeInHierarchy && !yellowPlayerII_Border.activeInHierarchy
                    && !yellowPlayerIII_Border.activeInHierarchy && !yellowPlayerIV_Border.activeInHierarchy)
