@@ -377,8 +377,16 @@ public class GameManager : MonoBehaviour
         switch (playerTurn)
         {
             case "RED":
+                //condition for border glow---
+                if ((redMovementBlocks.Count - redPlayerI_Steps) >= selectDiceNumAnimation && redPlayerI_Steps > 0
+                    && (redMovementBlocks.Count > redPlayerI_Steps))
+                    {
+                    redPlayerI_Border.SetActive(true);
+                    RedPlayerI_Button.interactable = true;
 
-                //---When player has no move switch the turn to next player-----
+                    }
+
+                //When player has no move switch the turn to next player-----
                 
                 if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
                 {
@@ -735,13 +743,87 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    
 
 
-  
+    public void RedPlayerIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
 
-    // Update is called once per frame
-    void Update()
+
+        RedPlayerI_Button.interactable = false;
+        RedPlayerII_Button.interactable = false;
+        RedPlayerIII_Button.interactable = false;
+        RedPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) > selectDiceNumAnimation) // 4 > 4
+        {
+            if (redPlayerI_Steps > 0)
+            {
+                Vector3[] redPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayer_Path[i] = redMovementBlocks[redPlayerI_Steps + i].transform.position;
+                }
+                redPlayerI_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "RED";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                }
+                if (redPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path, "speed", 125, "time", 2.0f,
+                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path[0], "speed", 125, "time", 2.0f,
+                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                currentPlayerName = "RED PLAYER I";
+
+            }
+                if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
+            {
+                Vector3[] redPlayer_Path = new Vector3[1];
+                redPlayer_Path[0] = redMovementBlocks[redPlayerI_Steps].transform.position;
+                redPlayerI_Steps += 1;
+                playerTurn = "RED";
+                currentPlayerName = "RED PLAYER 1";
+                iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path[0], "speed", 125, "time", 2.0f,
+                    "easetype", "linear", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+            }
+        }
+        }
+
+
+            // Update is called once per frame
+            void Update()
     {
         
     }
