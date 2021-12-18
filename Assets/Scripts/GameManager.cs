@@ -309,6 +309,7 @@ public class GameManager : MonoBehaviour
         DiceRollButton.interactable = false;
 
         selectDiceNumAnimation = randomNo.Next(1, 7);
+        //selectDiceNumAnimation = 6;
 
         switch (selectDiceNumAnimation)
         {
@@ -372,7 +373,7 @@ public class GameManager : MonoBehaviour
 
    IEnumerator PlayersNotInitialized()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(1f);
         // Game Start Initial position of each player (Red, Green, Blue, Yellow)
         switch (playerTurn)
         {
@@ -383,11 +384,47 @@ public class GameManager : MonoBehaviour
                     {
                     redPlayerI_Border.SetActive(true);
                     RedPlayerI_Button.interactable = true;
-
                     }
+                else
+                  {
+                    redPlayerI_Border.SetActive(false);
+                    RedPlayerI_Button.interactable = false;
+                  }
+                if((redMovementBlocks.Count - redPlayerII_Steps) >= selectDiceNumAnimation && redPlayerII_Steps > 0 && (redMovementBlocks.Count > redPlayerII_Steps))
+                {
+                    redPlayerII_Border.SetActive(true);
+                    RedPlayerII_Button.interactable = true;
+                }
+                else
+                {
+                    redPlayerII_Border.SetActive(false);
+                    RedPlayerII_Button.interactable = false;
+                }
+
+                if ((redMovementBlocks.Count - redPlayerIII_Steps) >= selectDiceNumAnimation && redPlayerIII_Steps > 0 && (redMovementBlocks.Count > redPlayerIII_Steps))
+                {
+                    redPlayerIII_Border.SetActive(true);
+                    RedPlayerIII_Button.interactable = true;
+                }
+                else
+                {
+                    redPlayerIII_Border.SetActive(false);
+                    RedPlayerIII_Button.interactable = false;
+                }
+
+                if ((redMovementBlocks.Count - redPlayerIV_Steps) >= selectDiceNumAnimation && redPlayerIV_Steps > 0 && (redMovementBlocks.Count > redPlayerIV_Steps))
+                {
+                    redPlayerIV_Border.SetActive(true);
+                    RedPlayerIV_Button.interactable = true;
+                }
+                else
+                {
+                    redPlayerIV_Border.SetActive(false);
+                    RedPlayerIV_Button.interactable = false;
+                }
 
                 //When player has no move switch the turn to next player-----
-                
+
                 if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
                 {
                     redPlayerI_Border.SetActive(true);
@@ -623,14 +660,1101 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //-------------------Red player 1 movement---------------------
+    public void RedPlayerIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
 
 
+        RedPlayerI_Button.interactable = false;
+        RedPlayerII_Button.interactable = false;
+        RedPlayerIII_Button.interactable = false;
+        RedPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) > selectDiceNumAnimation) // 4 > 4
+        {
+            if (redPlayerI_Steps > 0)
+            {
+                Vector3[] redPlayerI_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerI_Path[i] = redMovementBlocks[redPlayerI_Steps + i].transform.position;
+                }
+                redPlayerI_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "RED";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                }
+
+                if (redPlayerI_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("path", redPlayerI_Path, "speed", 125, "time", 2.0f,
+                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayerI_Path[0], "speed", 125, "time", 2.0f,
+                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                currentPlayerName = "RED PLAYER I";
+
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
+                {
+                    Vector3[] redPlayerI_Path = new Vector3[1];
+                    redPlayerI_Path[0] = redMovementBlocks[redPlayerI_Steps].transform.position;
+                    redPlayerI_Steps += 1;
+                    playerTurn = "RED";
+                    currentPlayerName = "RED PLAYER 1";
+                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayerI_Path[0], "speed", 125, "time", 2.0f,
+                        "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of required moves to get into the House)
+            if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] redPlayerI_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerI_Path[i] = redMovementBlocks[redPlayerI_Steps + i].transform.position;
+                }
+
+                redPlayerI_Steps += selectDiceNumAnimation;
+
+                playerTurn = "RED";
+
+                //redPlayerI_Steps = 0;
+
+                if (redPlayerI_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("path", redPlayerI_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayerI_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                totalRedInHouse += 1;
+                Debug.Log("Cool !!");
+                RedPlayerI_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (redMovementBlocks.Count - redPlayerI_Steps).ToString() + " to enter into the house.");
+
+                if (redPlayerIV_Steps + redPlayerII_Steps + redPlayerIII_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                  
+                }
+                InitializeDice();
+            }
+        }
+    }
+
+    //------------------------------Red player 2 movment--------------------------
+
+    public void RedPlayerIIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
 
 
+        RedPlayerI_Button.interactable = false;
+        RedPlayerII_Button.interactable = false;
+        RedPlayerIII_Button.interactable = false;
+        RedPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerII_Steps) > selectDiceNumAnimation) // 4 > 4
+        {
+            if (redPlayerII_Steps > 0)
+            {
+                Vector3[] redPlayerII_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerII_Path[i] = redMovementBlocks[redPlayerII_Steps + i].transform.position;
+                }
+                redPlayerII_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "RED";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                }
+
+                if (redPlayerII_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerII_Path, "speed", 125, "time", 2.0f,
+                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerII_Path[0], "speed", 125, "time", 2.0f,
+                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                currentPlayerName = "RED PLAYER II";
+
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && redPlayerII_Steps == 0)
+                {
+                    Vector3[] redPlayerII_Path = new Vector3[1];
+                    redPlayerII_Path[0] = redMovementBlocks[redPlayerII_Steps].transform.position;
+                    redPlayerII_Steps += 1;
+                    playerTurn = "RED";
+                    currentPlayerName = "RED PLAYER 1";
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerII_Path[0], "speed", 125, "time", 2.0f,
+                        "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of required moves to get into the House)
+            if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerII_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] redPlayerII_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerII_Path[i] = redMovementBlocks[redPlayerII_Steps + i].transform.position;
+                }
+
+                redPlayerII_Steps += selectDiceNumAnimation;
+
+                playerTurn = "RED";
+
+                //redPlayerI_Steps = 0;
+
+                if (redPlayerII_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerII_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerII_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                totalRedInHouse += 1;
+                Debug.Log("Cool !!");
+                RedPlayerII_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (redMovementBlocks.Count - redPlayerII_Steps).ToString() + " to enter into the house.");
+
+                if (redPlayerI_Steps + redPlayerIV_Steps + redPlayerIII_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                   
+                }
+                InitializeDice();
+            }
+        }
+    }
 
 
-                // Start is called before the first frame update
-        void Start()
+    //------------------------------Red player 3 movment--------------------------
+
+    public void RedPlayerIIIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
+
+
+        RedPlayerI_Button.interactable = false;
+        RedPlayerII_Button.interactable = false;
+        RedPlayerIII_Button.interactable = false;
+        RedPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerIII_Steps) > selectDiceNumAnimation) // 4 > 4
+        {
+            if (redPlayerIII_Steps > 0)
+            {
+                Vector3[] redPlayerIII_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerIII_Path[i] = redMovementBlocks[redPlayerIII_Steps + i].transform.position;
+                }
+                redPlayerIII_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "RED";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                }
+
+                if (redPlayerIII_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerIII_Path, "speed", 125, "time", 2.0f,
+                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIII_Path[0], "speed", 125, "time", 2.0f,
+                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                currentPlayerName = "RED PLAYER II";
+
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && redPlayerIII_Steps == 0)
+                {
+                    Vector3[] redPlayerIII_Path = new Vector3[1];
+                    redPlayerIII_Path[0] = redMovementBlocks[redPlayerIII_Steps].transform.position;
+                    redPlayerIII_Steps += 1;
+                    playerTurn = "RED";
+                    currentPlayerName = "RED PLAYER 1";
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIII_Path[0], "speed", 125, "time", 2.0f,
+                        "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of required moves to get into the House)
+            if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerIII_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] redPlayerIII_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerIII_Path[i] = redMovementBlocks[redPlayerIII_Steps + i].transform.position;
+                }
+
+                redPlayerIII_Steps += selectDiceNumAnimation;
+
+                playerTurn = "RED";
+
+                //redPlayerI_Steps = 0;
+
+                if (redPlayerIII_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerIII_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIII_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                totalRedInHouse += 1;
+                Debug.Log("Cool !!");
+                RedPlayerIII_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (redMovementBlocks.Count - redPlayerII_Steps).ToString() + " to enter into the house.");
+
+                if (redPlayerI_Steps + redPlayerIV_Steps + redPlayerII_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                   
+                }
+                InitializeDice();
+            }
+        }
+    }
+
+    //------------------------------Red player 4 movment--------------------------
+
+    public void RedPlayerIVMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        redPlayerI_Border.SetActive(false);
+        redPlayerII_Border.SetActive(false);
+        redPlayerIII_Border.SetActive(false);
+        redPlayerIV_Border.SetActive(false);
+
+
+        RedPlayerI_Button.interactable = false;
+        RedPlayerII_Button.interactable = false;
+        RedPlayerIII_Button.interactable = false;
+        RedPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerIV_Steps) > selectDiceNumAnimation) // 4 > 4
+        {
+            if (redPlayerIV_Steps > 0)
+            {
+                Vector3[] redPlayerIV_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerIV_Path[i] = redMovementBlocks[redPlayerIV_Steps + i].transform.position;
+                }
+                redPlayerIV_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "RED";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                }
+
+                if (redPlayerIV_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerIV_Path, "speed", 125, "time", 2.0f,
+                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIV_Path[0], "speed", 125, "time", 2.0f,
+                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                currentPlayerName = "RED PLAYER II";
+
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && redPlayerIV_Steps == 0)
+                {
+                    Vector3[] redPlayerIV_Path = new Vector3[1];
+                    redPlayerIV_Path[0] = redMovementBlocks[redPlayerIV_Steps].transform.position;
+                    redPlayerIV_Steps += 1;
+                    playerTurn = "RED";
+                    currentPlayerName = "RED PLAYER 1";
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIV_Path[0], "speed", 125, "time", 2.0f,
+                        "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of required moves to get into the House)
+            if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerIV_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] redPlayerIV_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    redPlayerIV_Path[i] = redMovementBlocks[redPlayerIV_Steps + i].transform.position;
+                }
+
+                redPlayerIV_Steps += selectDiceNumAnimation;
+
+                playerTurn = "RED";
+
+                //redPlayerI_Steps = 0;
+
+                if (redPlayerIV_Path.Length > 1)
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("path", redPlayerIV_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(redPlayerII, iTween.Hash("position", redPlayerIV_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype",
+                        "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                totalRedInHouse += 1;
+                Debug.Log("Cool !!");
+                RedPlayerIV_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (redMovementBlocks.Count - redPlayerIV_Steps).ToString() + " to enter into the house.");
+
+                if (redPlayerI_Steps + redPlayerII_Steps + redPlayerIII_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "GREEN";
+                            break;
+
+                        case 3:
+                            playerTurn = "BLUE";
+                            break;
+
+                        case 4:
+                            playerTurn = "BLUE";
+                            break;
+                    }
+                   
+                }
+                InitializeDice();
+            }
+        }
+    }
+    //------------------------------Green player 1 movment--------------------------
+    public void GreenPlayerIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        greenPlayerI_Border.SetActive(false);
+        greenPlayerII_Border.SetActive(false);
+        greenPlayerIII_Border.SetActive(false);
+        greenPlayerIV_Border.SetActive(false);
+
+        GreenPlayerI_Button.interactable = false;
+        GreenPlayerII_Button.interactable = false;
+        GreenPlayerIII_Button.interactable = false;
+        GreenPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerI_Steps) > selectDiceNumAnimation)
+        {
+            if (greenPlayerI_Steps > 0)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerI_Steps + i].transform.position;
+                }
+
+                greenPlayerI_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "GREEN";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                }
+
+                currentPlayerName = "GREEN PLAYER I";
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerI, iTween.Hash("path", greenPlayer_Path, "speed", 125, 
+                        "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerI, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, 
+                        "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && greenPlayerI_Steps == 0)
+                {
+                    Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+                    greenPlayer_Path[0] = greenMovementBlocks[greenPlayerI_Steps].transform.position;
+                    greenPlayerI_Steps += 1;
+                    playerTurn = "GREEN";
+                    currentPlayerName = "GREEN PLAYER I";
+                    iTween.MoveTo(greenPlayerI, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, 
+                        "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of requigreen moves to get into the House)
+            if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerI_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerI_Steps + i].transform.position;
+                }
+
+                greenPlayerI_Steps += selectDiceNumAnimation;
+
+                playerTurn = "GREEN";
+
+                //greenPlayerI_Steps = 0;
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerI, iTween.Hash("path", greenPlayer_Path, "speed", 125, 
+                        "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerI, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, 
+                        "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                totalGreenInHouse += 1;
+                Debug.Log("Cool !!");
+                GreenPlayerI_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (greenMovementBlocks.Count - greenPlayerI_Steps).ToString() + " to enter into the house.");
+
+                if (greenPlayerII_Steps + greenPlayerIII_Steps + greenPlayerIV_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //Player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                    
+                }
+                InitializeDice();
+            }
+        }
+    }
+
+    // ------------------Green player 3 movement--------------
+
+    public void GreenPlayerIIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        greenPlayerI_Border.SetActive(false);
+        greenPlayerII_Border.SetActive(false);
+        greenPlayerIII_Border.SetActive(false);
+        greenPlayerIV_Border.SetActive(false);
+
+        GreenPlayerI_Button.interactable = false;
+        GreenPlayerII_Button.interactable = false;
+        GreenPlayerIII_Button.interactable = false;
+        GreenPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerII_Steps) > selectDiceNumAnimation)
+        {
+            if (greenPlayerII_Steps > 0)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerII_Steps + i].transform.position;
+                }
+
+                greenPlayerII_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "GREEN";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                }
+
+                currentPlayerName = "GREEN PLAYER II";
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerII, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, 
+                        "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && greenPlayerII_Steps == 0)
+                {
+                    Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+                    greenPlayer_Path[0] = greenMovementBlocks[greenPlayerII_Steps].transform.position;
+                    greenPlayerII_Steps += 1;
+                    playerTurn = "GREEN";
+                    currentPlayerName = "GREEN PLAYER II";
+                    iTween.MoveTo(greenPlayerII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of requigreen moves to get into the House)
+            if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerII_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerII_Steps + i].transform.position;
+                }
+
+                greenPlayerII_Steps += selectDiceNumAnimation;
+
+                playerTurn = "GREEN";
+
+                //greenPlayerII_Steps = 0;
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerII, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", 
+                        "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                totalGreenInHouse += 1;
+                Debug.Log("Cool !!");
+                GreenPlayerII_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (greenMovementBlocks.Count - greenPlayerII_Steps).ToString() + " to enter into the house.");
+
+                if (greenPlayerI_Steps + greenPlayerIII_Steps + greenPlayerIV_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //Player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                    InitializeDice();
+                }
+            }
+        }
+    }
+     // ------------------Green player 3 movement--------------
+    public void GreenPlayerIIIMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        greenPlayerI_Border.SetActive(false);
+        greenPlayerII_Border.SetActive(false);
+        greenPlayerIII_Border.SetActive(false);
+        greenPlayerIV_Border.SetActive(false);
+
+        GreenPlayerI_Button.interactable = false;
+        GreenPlayerII_Button.interactable = false;
+        GreenPlayerIII_Button.interactable = false;
+        GreenPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerIII_Steps) > selectDiceNumAnimation)
+        {
+            if (greenPlayerIII_Steps > 0)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerIII_Steps + i].transform.position;
+                }
+
+                greenPlayerIII_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "GREEN";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                }
+
+                currentPlayerName = "GREEN PLAYER III";
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerIII, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerIII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, 
+                        "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && greenPlayerIII_Steps == 0)
+                {
+                    Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+                    greenPlayer_Path[0] = greenMovementBlocks[greenPlayerIII_Steps].transform.position;
+                    greenPlayerIII_Steps += 1;
+                    playerTurn = "GREEN";
+                    currentPlayerName = "GREEN PLAYER III";
+                    iTween.MoveTo(greenPlayerIII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", 
+                        "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of requigreen moves to get into the House)
+            if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerIII_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerIII_Steps + i].transform.position;
+                }
+
+                greenPlayerIII_Steps += selectDiceNumAnimation;
+
+                playerTurn = "GREEN";
+
+                //greenPlayerIII_Steps = 0;
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerIII, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", 
+                        "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerIII, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                totalGreenInHouse += 1;
+                Debug.Log("Cool !!");
+                GreenPlayerIII_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (greenMovementBlocks.Count - greenPlayerIII_Steps).ToString() + " to enter into the house.");
+
+                if (greenPlayerI_Steps + greenPlayerII_Steps + greenPlayerIV_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //Player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                    InitializeDice();
+                }
+            }
+        }
+    }
+    // ------------------Green player 4 movement--------------
+    public void GreenPlayerIVMovement()
+    {
+        SoundManager.playerAudioSource.Play();
+        greenPlayerI_Border.SetActive(false);
+        greenPlayerII_Border.SetActive(false);
+        greenPlayerIII_Border.SetActive(false);
+        greenPlayerIV_Border.SetActive(false);
+
+        GreenPlayerI_Button.interactable = false;
+        GreenPlayerII_Button.interactable = false;
+        GreenPlayerIII_Button.interactable = false;
+        GreenPlayerIV_Button.interactable = false;
+
+        if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerIV_Steps) > selectDiceNumAnimation)
+        {
+            if (greenPlayerIV_Steps > 0)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerIV_Steps + i].transform.position;
+                }
+
+                greenPlayerIV_Steps += selectDiceNumAnimation;
+
+                if (selectDiceNumAnimation == 6)
+                {
+                    playerTurn = "GREEN";
+                }
+                else
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                }
+
+                currentPlayerName = "GREEN PLAYER IV";
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerIV, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", "elastic", 
+                        "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerIV, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, 
+                        "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+
+                }
+            }
+            else
+            {
+                if (selectDiceNumAnimation == 6 && greenPlayerIV_Steps == 0)
+                {
+                    Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+                    greenPlayer_Path[0] = greenMovementBlocks[greenPlayerIV_Steps].transform.position;
+                    greenPlayerIV_Steps += 1;
+                    playerTurn = "GREEN";
+                    currentPlayerName = "GREEN PLAYER IV";
+                    iTween.MoveTo(greenPlayerIV, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+            }
+        }
+        else
+        {
+            // Condition when Player Coin is reached successfully in House....(Actual Number of requigreen moves to get into the House)
+            if (playerTurn == "GREEN" && (greenMovementBlocks.Count - greenPlayerIV_Steps) == selectDiceNumAnimation)
+            {
+                Vector3[] greenPlayer_Path = new Vector3[selectDiceNumAnimation];
+
+                for (int i = 0; i < selectDiceNumAnimation; i++)
+                {
+                    greenPlayer_Path[i] = greenMovementBlocks[greenPlayerIV_Steps + i].transform.position;
+                }
+
+                greenPlayerIV_Steps += selectDiceNumAnimation;
+
+                playerTurn = "GREEN";
+
+                //greenPlayerIV_Steps = 0;
+
+                if (greenPlayer_Path.Length > 1)
+                {
+                    iTween.MoveTo(greenPlayerIV, iTween.Hash("path", greenPlayer_Path, "speed", 125, "time", 2.0f, "easetype", 
+                        "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+                else
+                {
+                    iTween.MoveTo(greenPlayerIV, iTween.Hash("position", greenPlayer_Path[0], "speed", 125, "time", 2.0f, 
+                        "easetype", "elastic", "looptype", "none", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
+                }
+
+                totalGreenInHouse += 1;
+                Debug.Log("Cool !!");
+                GreenPlayerIV_Button.enabled = false;
+            }
+            else
+            {
+                Debug.Log("You need " + (greenMovementBlocks.Count - greenPlayerIV_Steps).ToString() + " to enter into the house.");
+
+                if (greenPlayerI_Steps + greenPlayerII_Steps + greenPlayerIII_Steps == 0 && selectDiceNumAnimation != 6)
+                {
+                    switch (MainMenuManager.howManyPlayers)
+                    {
+                        case 2:
+                            playerTurn = "RED";
+                            break;
+
+                        case 3:
+                            //Player is not available
+                            break;
+
+                        case 4:
+                            playerTurn = "YELLOW";
+                            break;
+                    }
+                    InitializeDice();
+                }
+            }
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
     {
 
         QualitySettings.vSyncCount = 1;
@@ -745,86 +1869,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void RedPlayerIMovement()
-    {
-        SoundManager.playerAudioSource.Play();
-        redPlayerI_Border.SetActive(false);
-        redPlayerII_Border.SetActive(false);
-        redPlayerIII_Border.SetActive(false);
-        redPlayerIV_Border.SetActive(false);
-
-
-        RedPlayerI_Button.interactable = false;
-        RedPlayerII_Button.interactable = false;
-        RedPlayerIII_Button.interactable = false;
-        RedPlayerIV_Button.interactable = false;
-
-        if (playerTurn == "RED" && (redMovementBlocks.Count - redPlayerI_Steps) > selectDiceNumAnimation) // 4 > 4
-        {
-            if (redPlayerI_Steps > 0)
-            {
-                Vector3[] redPlayer_Path = new Vector3[selectDiceNumAnimation];
-
-                for (int i = 0; i < selectDiceNumAnimation; i++)
-                {
-                    redPlayer_Path[i] = redMovementBlocks[redPlayerI_Steps + i].transform.position;
-                }
-                redPlayerI_Steps += selectDiceNumAnimation;
-
-                if (selectDiceNumAnimation == 6)
-                {
-                    playerTurn = "RED";
-                }
-                else
-                {
-                    switch (MainMenuManager.howManyPlayers)
-                    {
-                        case 2:
-                            playerTurn = "GREEN";
-                            break;
-
-                        case 3:
-                            playerTurn = "BLUE";
-                            break;
-
-                        case 4:
-                            playerTurn = "BLUE";
-                            break;
-                    }
-                }
-                if (redPlayer_Path.Length > 1)
-                {
-                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path, "speed", 125, "time", 2.0f,
-                    "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
-
-                }
-                else
-                {
-                    iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path[0], "speed", 125, "time", 2.0f,
-                         "easetype", "elastic", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
-                }
-
-                currentPlayerName = "RED PLAYER I";
-
-            }
-                if (selectDiceNumAnimation == 6 && redPlayerI_Steps == 0)
-            {
-                Vector3[] redPlayer_Path = new Vector3[1];
-                redPlayer_Path[0] = redMovementBlocks[redPlayerI_Steps].transform.position;
-                redPlayerI_Steps += 1;
-                playerTurn = "RED";
-                currentPlayerName = "RED PLAYER 1";
-                iTween.MoveTo(redPlayerI, iTween.Hash("position", redPlayer_Path[0], "speed", 125, "time", 2.0f,
-                    "easetype", "linear", "oncomplete", "InitializeDice", "oncompletetarget", this.gameObject));
-
-            }
-        }
-        }
-
-
-            // Update is called once per frame
+     // Update is called once per frame
             void Update()
-    {
+            {
         
-    }
+            }
 }
